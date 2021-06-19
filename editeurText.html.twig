@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} EditeurText
+{% endblock %}
+{% block stylesheets %}	
+<script src="/ckeditor/ckeditor.js"></script>
+  <link type="text/css" href="/texteditor/sample/css/simple.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="/texteditor/sample/css/buttons.css" rel="stylesheet" media="screen" />
+
+	<script src="/ckeditor/samples/js/sample.js"></script>
+	<link rel="stylesheet" href="/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css">
+{% endblock %}
+{% block body %}	
+<div class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+		</div>
+<div class='mt-5'></div>
+<button type="button" class="btn btn-primary my-3 saveButton" data-toggle="modal" data-target="#exampleModal">
+ Terminez
+</button>
+
+<script>
+CKEDITOR.on( 'instanceReady', function( ev ) {
+     ev.editor.setData('<span style="font-family:Arial, Verdana, sans-serif;">'+CKEDITOR.instances.editor.getData()+'&shy;</span>');
+});
+
+</script>
+    
+			<main>
+
+<div id="editeur">
+			{{form_start(formulaire)}}
+	
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enregistrez avec l'un de ces
+formats
+ :</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">  
+      {{form_row(formulaire.nom_document)}}
+      <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" style ="background-color:#264653;border:1px solid #264653"type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Choisissez le format 
+  </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+ <a class="dropdown-item" href="#">{{ form_widget(formulaire.PDF, {'attr': {'class': 'Button'}}) }}</a>
+    <a class="dropdown-item" href="#"> {{ form_widget(formulaire.DOC, {'attr': {'class': 'Button'}}) }}
+</a>
+   
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+			<div class="adjoined-bottom mb-5">
+		<div class="grid-container mb-5">
+			<div class="grid-width-100 mb-5" >
+				<div id="editor" >
+					{{text|raw}}
+			</div>
+      {{ form_widget(formulaire.content) }}
+
+		</div>
+      {{ form_end(formulaire) }}
+	</div>
+  </div>
+  </div>
+  </div>
+		</main>
+
+</div>    </section>
+<p id="documentNom" hidden>{{nomDocument}}</p>
+<p id="documentId" hidden>{{id_document}}</p>
+<p id="page" hidden>{{page}}</p>
+		{# templates/new_post.html.twig #}
+		{# Javascript Block #}
+	<div class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+		</div>
+</div>
+
+<script>
+	initSample();
+</script>
+<script src="/js/docx.js"></script>
+<script>
+
+ 
+            document.querySelector("#editeur form").addEventListener("submit",function(e){
+                e.preventDefault;
+                this.querySelector("#editeur_text_content").value =CKEDITOR.instances.editor.getData();
+                console.log(this.querySelector("#editeur_text_content").value);
+            });//.then( editor => {
+			
+	
+        
+</script>
+
+
+{#<script>
+    function exportHTML(){
+       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+       var footer = "</body></html>";
+       var sourceHTML = header+document.getElementById("editor").innerHTML+footer;
+       
+       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(editor);
+       var fileDownload = document.createElement("a");
+       document.body.appendChild(fileDownload);
+       fileDownload.href = source;
+       fileDownload.download = 'document.doc';
+       fileDownload.click();
+       document.body.removeChild(fileDownload);
+    }
+</script>
+#}
+
+{% endblock %}
